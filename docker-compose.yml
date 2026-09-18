@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    container_name: lms_web
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: mariadb:10.11
+    container_name: lms_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: lms_modul_ajar
+      MYSQL_USER: lms_user
+      MYSQL_PASSWORD: lms_pass
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: unless-stopped
+
+volumes:
+  db_data:
